@@ -1,0 +1,37 @@
+services:
+  db:
+    container_name: todo-db
+    image: postgres:15
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      TZ: ${TZ}
+
+  server:
+    container_name: todo-server
+    build:
+      context: server
+      dockerfile: Dockerfile.local
+    ports:
+      - "${SERVER_PORT}:18080"
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ./server
+        target: /src/server
+    environment:
+      PORT: ${SERVER_PORT}
+      ENV: ${ENV}
+      DB_HOST: ${DB_HOST}
+      POST_PORT: 5432
+      TZ: ${TZ}
+
+volumes:
+  db-data:
+    name: todo-db-data
