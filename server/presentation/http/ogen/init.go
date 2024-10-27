@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	h "server/presentation/http/ogen/handler"
+	middlewares "server/presentation/http/ogen/middleware"
 	oas "server/presentation/http/ogen/oas"
 
 	"github.com/rs/cors"
@@ -12,7 +13,7 @@ import (
 func Init() {
 	handler := h.NewHandler()
 
-	server, err := oas.NewServer(handler)
+	server, err := oas.NewServer(handler, oas.WithMiddleware(middlewares.Logging()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,7 +24,7 @@ func Init() {
 		AllowCredentials: true,
 	})
 
-	// 環境変数を入れる
+	// TODO: 環境変数に入れる
 	if err := http.ListenAndServe(":18080", cors.Handler(server)); err != nil {
 		log.Fatal(err)
 	}
