@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"server/infra/applogger"
+	"server/presentation/http/ogen"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	applogger.Init()
+	ogen.Init()
 }

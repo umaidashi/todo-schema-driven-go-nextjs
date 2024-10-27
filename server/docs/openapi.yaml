@@ -1,0 +1,211 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 1y9es20qiy75t
+info:
+  title: todo-schema-driven
+  version: '1.0'
+  summary: todo app
+servers:
+  - url: 'http://localhost:18080'
+    description: ''
+paths:
+  /todo:
+    post:
+      tags:
+        - TODOの登録
+      description: TODOを登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoInformation'
+      responses:
+        '201':
+          description: TODOの登録完了
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoId'
+        '400':
+          description: リクエスト不正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '500':
+          description: システム内で異常が発生し正常にリクエストが処理できなかった場合
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+      operationId: create-todo
+    get:
+      tags:
+        - TODOの取得
+      description: TODOの一覧を取得する
+      parameters:
+        - in: query
+          name: todo_id
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: TODO情報
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoInformation'
+        '400':
+          description: リクエスト不正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '500':
+          description: システム内で異常が発生し正常にリクエストが処理できなかった場合
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+      operationId: get-todo
+  '/todo/{todo_id}':
+    patch:
+      parameters:
+        - in: path
+          required: true
+          name: todo_id
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - TODOを更新
+      description: TODOを更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoInformation'
+      responses:
+        '204':
+          description: TODO更新成功
+        '400':
+          description: リクエスト不正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '404':
+          description: 更新対象のリソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '500':
+          description: システム内で異常が発生し正常にリクエストが処理できなかった場合
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+      summary: Update a Todo
+      operationId: update-todo
+    delete:
+      parameters:
+        - in: path
+          required: true
+          name: todo_id
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - TODOを削除
+      description: TODOを削除する
+      responses:
+        '200':
+          description: TODOの削除成功
+        '400':
+          description: リクエスト不正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '404':
+          description: 削除対象のリソースが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+        '500':
+          description: システム内で異常が発生し正常にリクエストが処理できなかった場合
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoOpeError'
+      operationId: delete-todo
+components:
+  schemas:
+    TodoInformation:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: TODOの件名
+          example: todo追加
+        detail:
+          type: string
+          maxLength: 300
+          description: TODOの詳細
+          example: todoを追加します
+        progress:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          description: TODOの進捗率
+          example: 50
+        start_date:
+          type: string
+          format: date
+          description: 開始予定日
+        end_date:
+          type: string
+          format: date
+          description: 終了予定日
+      required:
+        - title
+        - progress
+      title: ''
+    TodoId:
+      type: object
+      properties:
+        todo_id:
+          type: integer
+          format: int32
+          description: TODOの登録番号
+          example: 1
+    TodoOpeError:
+      type: object
+      properties:
+        error_code:
+          type: number
+          description: エラーコード
+          example: 201
+        error_message:
+          type: string
+          description: エラーメッセージ
+          example: error message.
+

@@ -2,9 +2,8 @@ FROM golang:1.23-bullseye
 ENV TZ=Asia/Tokyo
 WORKDIR /src/server
 
-
-# server 立てたら
-# RUN go install -v github.com/air-verse/air@latest
+RUN go install -v github.com/air-verse/air@latest
+RUN go install -v github.com/ogen-go/ogen/cmd/ogen@latest
 
 COPY go.mod go.sum ./
 RUN go mod download
