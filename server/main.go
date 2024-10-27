@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"server/presentation/http/ogen"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	ogen_server.Init()
 }
