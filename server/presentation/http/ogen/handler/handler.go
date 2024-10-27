@@ -4,6 +4,7 @@ import (
 	"context"
 	"server/infra/applogger"
 	oas "server/presentation/http/ogen/oas"
+	"time"
 )
 
 func NewHandler() oas.Handler {
@@ -25,7 +26,16 @@ func (h *Handler) DeleteTodo(ctx context.Context, params oas.DeleteTodoParams) (
 
 func (h *Handler) GetTodo(ctx context.Context, params oas.GetTodoParams) (oas.GetTodoRes, error) {
 	applogger.Info("GetTodo")
-	return nil, nil
+	todoInfomation := oas.TodoInformation{
+		Title:     "title",
+		Detail:    oas.NewOptString("description"),
+		Progress:  20,
+		StartDate: oas.NewOptDate(time.Now()),
+		EndDate:   oas.NewOptDate(time.Now()),
+	}
+	return &oas.GetTodoOKApplicationJSON{
+		todoInfomation,
+	}, nil
 }
 
 func (h *Handler) UpdateTodo(ctx context.Context, req oas.OptTodoInformation, params oas.UpdateTodoParams) (oas.UpdateTodoRes, error) {
