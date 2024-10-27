@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-  applogger.Init()
-	ogen_server.Init()
+	applogger.Init()
+	ogen.Init()
 }

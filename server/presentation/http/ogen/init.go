@@ -1,4 +1,4 @@
-package ogen_server
+package ogen
 
 import (
 	"log"
