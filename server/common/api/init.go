@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 	"server/pkg/ent"
 	oas "server/pkg/oas"
@@ -16,7 +15,7 @@ func Init(db *ent.Client) {
 
 	server, err := oas.NewServer(handler, oas.WithMiddleware(middlewares.Logging()))
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	cors := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
@@ -27,6 +26,6 @@ func Init(db *ent.Client) {
 
 	// TODO: 環境変数に入れる
 	if err := http.ListenAndServe(":18080", cors.Handler(server)); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }

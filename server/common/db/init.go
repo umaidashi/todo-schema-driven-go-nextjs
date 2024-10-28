@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"server/common/config"
 	"server/pkg/ent"
@@ -20,5 +21,11 @@ func Init() *ent.Client {
 
 	// Create an ent.Driver from `db`.
 	drv := entsql.OpenDB(dialect.Postgres, db)
-	return ent.NewClient(ent.Driver(drv))
+	client := ent.NewClient(ent.Driver(drv))
+
+	if err := client.Schema.Create(context.Background()); err != nil {
+		panic(err)
+	}
+
+	return client
 }
