@@ -1,13 +1,13 @@
 package main
 
 import (
+	"server/common/api"
 	"server/common/db"
 	"server/infra/applogger"
-	"server/presentation/http/ogen"
 )
 
 func main() {
 	applogger.Init()
-	db.Init()
-	ogen.Init()
+	db := db.Init()
+	api.Init(db)
 }

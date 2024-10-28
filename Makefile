@@ -14,6 +14,7 @@ clean:
 
 .PHONY: tidy
 tidy:
+	@cd server && \
 	go mod tidy
 
 .PHONY: gen-ogen

@@ -8,6 +8,8 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 
 	"entgo.io/ent/dialect"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func Init() *ent.Client {

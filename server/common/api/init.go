@@ -1,17 +1,18 @@
-package ogen
+package api
 
 import (
 	"log"
 	"net/http"
+	"server/pkg/ent"
+	oas "server/pkg/oas"
 	h "server/presentation/http/ogen/handler"
 	middlewares "server/presentation/http/ogen/middleware"
-	oas "server/pkg/oas"
 
 	"github.com/rs/cors"
 )
 
-func Init() {
-	handler := h.NewHandler()
+func Init(db *ent.Client) {
+	handler := h.NewHandler(db)
 
 	server, err := oas.NewServer(handler, oas.WithMiddleware(middlewares.Logging()))
 	if err != nil {
