@@ -12,6 +12,10 @@ clean:
 	docker compose stop
 	docker compose down
 
+.PHONY: tidy
+tidy:
+	go mod tidy
+
 .PHONY: gen-ogen
 gen-ogen:
 	@docker compose run --rm server \
