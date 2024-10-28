@@ -3,7 +3,7 @@
 package task
 
 import (
-	"server/infra/database/postgres/ent/predicate"
+	"server/pkg/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

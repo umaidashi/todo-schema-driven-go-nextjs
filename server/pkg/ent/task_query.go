@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"server/infra/database/postgres/ent/predicate"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/predicate"
+	"server/pkg/ent/task"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

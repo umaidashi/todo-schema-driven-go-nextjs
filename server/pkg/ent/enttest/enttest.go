@@ -5,11 +5,11 @@ package enttest
 import (
 	"context"
 
-	"server/infra/database/postgres/ent"
+	"server/pkg/ent"
 	// required by schema hooks.
-	_ "server/infra/database/postgres/ent/runtime"
+	_ "server/pkg/ent/runtime"
 
-	"server/infra/database/postgres/ent/migrate"
+	"server/pkg/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

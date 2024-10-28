@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/task"
 	"strings"
 
 	"entgo.io/ent"

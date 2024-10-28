@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in server/infra/database/postgres/ent/runtime.go
+// The schema-stitching logic is generated in server/pkg/ent/runtime.go
 
 const (
 	Version = "v0.14.1"                                         // Version of ent codegen.

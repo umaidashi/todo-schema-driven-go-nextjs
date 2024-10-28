@@ -20,7 +20,7 @@ gen-ogen:
 .PHONY: gen-ent
 gen-ent:
 	@docker compose run --rm server \
-	go generate ./infra/database/postgres/ent
+	go generate ./pkg/ent
 
 .PHONY: logs
 logs:

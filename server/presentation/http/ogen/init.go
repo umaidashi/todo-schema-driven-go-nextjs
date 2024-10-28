@@ -5,7 +5,7 @@ import (
 	"net/http"
 	h "server/presentation/http/ogen/handler"
 	middlewares "server/presentation/http/ogen/middleware"
-	oas "server/presentation/http/ogen/oas"
+	oas "server/pkg/oas"
 
 	"github.com/rs/cors"
 )

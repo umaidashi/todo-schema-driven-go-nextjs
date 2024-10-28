@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"server/infra/database/postgres/ent/predicate"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/predicate"
+	"server/pkg/ent/task"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

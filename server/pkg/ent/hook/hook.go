@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"server/infra/database/postgres/ent"
+	"server/pkg/ent"
 )
 
 // The TaskFunc type is an adapter to allow the use of ordinary

@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/task"
 	"sync"
 
 	"entgo.io/ent"

@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"server/infra/applogger"
-	oas "server/presentation/http/ogen/oas"
+	oas "server/pkg/oas"
 	"time"
 )
 

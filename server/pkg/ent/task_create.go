@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/task"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

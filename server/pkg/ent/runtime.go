@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"server/infra/database/postgres/ent/schema"
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/schema"
+	"server/pkg/ent/task"
 )
 
 // The init function reads all schema descriptors with runtime code

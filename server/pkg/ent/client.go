@@ -9,9 +9,9 @@ import (
 	"log"
 	"reflect"
 
-	"server/infra/database/postgres/ent/migrate"
+	"server/pkg/ent/migrate"
 
-	"server/infra/database/postgres/ent/task"
+	"server/pkg/ent/task"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
