@@ -32,7 +32,7 @@ gen-ent:
 .PHONY: create-ddl
 create-ddl:
 	@docker compose run --rm server \
-	go run -mod=mod ./cmd/migration/main.go $(NAME)
+	go run -mod=mod ./cmd/migration/main.go "$(NAME)"
 
 .PHONY: migrate-up
 migrate-up:
