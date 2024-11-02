@@ -5,13 +5,12 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// Task holds the schema definition for the Task entity.
-type Task struct {
+type User struct {
 	ent.Schema
 }
 
-// Fields of the Task.
-func (Task) Fields() []ent.Field {
+// Fields of the User.
+func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("age").
 			Positive(),
@@ -20,7 +19,7 @@ func (Task) Fields() []ent.Field {
 	}
 }
 
-// Edges of the Task.
-func (Task) Edges() []ent.Edge {
+// Edges of the User.
+func (User) Edges() []ent.Edge {
 	return nil
 }
