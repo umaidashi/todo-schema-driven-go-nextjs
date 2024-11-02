@@ -1,11 +1,16 @@
 package main
 
 import (
+	"server/common/api"
+	"server/common/config"
+	"server/common/db"
 	"server/infra/applogger"
-	"server/presentation/http/ogen"
 )
 
 func main() {
+	config.Init()
 	applogger.Init()
-	ogen.Init()
+	db := db.Init()
+	api.Init(db)
+	applogger.Info("Stock Service started.")
 }
