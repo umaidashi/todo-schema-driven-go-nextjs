@@ -1,6 +1,8 @@
 .PHONY: init
 init:
 	@make up
+	sleep 5
+	@make migrate-up
 	@make logs
 
 .PHONY: up
@@ -26,6 +28,17 @@ gen-ogen:
 gen-ent:
 	@docker compose run --rm server \
 	go generate ./pkg/ent
+
+.PHONY: create-ddl
+create-ddl:
+	@docker compose run --rm server \
+	go run -mod=mod ./cmd/migration/main.go $(NAME)
+
+.PHONY: migrate-up
+migrate-up:
+	atlas migrate apply \
+		--dir "file://server/infra/migrations" \
+		--url "postgres://oidon:oidon@localhost:15432/todo-db?sslmode=disable"
 
 .PHONY: logs
 logs:
