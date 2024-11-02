@@ -5,11 +5,14 @@ go 1.23.0
 toolchain go1.23.2
 
 require (
+	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43
 	entgo.io/ent v0.14.1
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.1.0
 	github.com/jackc/pgx/v5 v5.7.1
+	github.com/lib/pq v1.10.9
 	github.com/ogen-go/ogen v1.4.1
+	github.com/renoinn/ent_atlas v0.0.0-20221118173806-268d78d038a6
 	github.com/rs/cors v1.11.1
 	github.com/samber/lo v1.47.0
 	github.com/spf13/viper v1.19.0
@@ -21,7 +24,6 @@ require (
 )
 
 require (
-	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/dlclark/regexp2 v1.11.4 // indirect
