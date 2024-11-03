@@ -33,7 +33,7 @@ export const useCreateTodoHook = () => {
   return useCallback(
     (todoInformation: TodoInformation) => {
       return createTodo({
-        url: `/todo`,
+        url: '/todo',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: todoInformation
@@ -108,7 +108,7 @@ export const useGetTodoHook = () => {
   return useCallback(
     (params?: GetTodoParams, signal?: AbortSignal) => {
       return getTodo({
-        url: `/todo`,
+        url: '/todo',
         method: 'GET',
         params,
         signal
@@ -119,7 +119,7 @@ export const useGetTodoHook = () => {
 }
 
 export const getGetTodoQueryKey = (params?: GetTodoParams) => {
-  return [`/todo`, ...(params ? [params] : [])] as const
+  return ['/todo', ...(params ? [params] : [])] as const
 }
 
 export const useGetTodoQueryOptions = <
