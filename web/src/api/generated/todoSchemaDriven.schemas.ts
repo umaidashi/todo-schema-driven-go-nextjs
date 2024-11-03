@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0
  */
 export type GetTodoParams = {
-todo_id?: number;
-offset?: number;
-limit?: number;
+  todo_id?: number;
+  offset?: number;
+  limit?: number;
 };
 
 export interface TodoOpeError {

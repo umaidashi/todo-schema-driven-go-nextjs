@@ -35,99 +35,102 @@ import type { ErrorType } from '../../libs/axios/index';
  * TODOを登録する
  */
 export const useCreateTodoHook = () => {
-        const createTodo = useCustomInstance<TodoId>();
+  const createTodo = useCustomInstance<TodoId>();
 
-        return useCallback((
+  return useCallback((
     todoInformation: TodoInformation,
- ) => {
-        return createTodo(
-          {url: `/todo`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: todoInformation
-    },
-          );
-        }, [createTodo])
-      }
-    
+  ) => {
+    return createTodo(
+      {
+        url: `/todo`, method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        data: todoInformation
+      },
+    );
+  }, [createTodo])
+}
+
 
 
 export const useCreateTodoMutationOptions = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError,{data: TodoInformation}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError,{data: TodoInformation}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError, { data: TodoInformation }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError, { data: TodoInformation }, TContext> => {
+  const { mutation: mutationOptions } = options ?? {};
 
-      const createTodo =  useCreateTodoHook()
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, {data: TodoInformation}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createTodo(data,)
-        }
-
-        
+  const createTodo = useCreateTodoHook()
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, { data: TodoInformation }> = (props) => {
+    const { data } = props ?? {};
 
-    export type CreateTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>>
-    export type CreateTodoMutationBody = TodoInformation
-    export type CreateTodoMutationError = ErrorType<TodoOpeError>
+    return createTodo(data,)
+  }
 
-    export const useCreateTodo = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError,{data: TodoInformation}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>,
-        TError,
-        {data: TodoInformation},
-        TContext
-      > => {
 
-      const mutationOptions = useCreateTodoMutationOptions(options);
 
-      return useMutation(mutationOptions);
-    }
-    
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type CreateTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>>
+export type CreateTodoMutationBody = TodoInformation
+export type CreateTodoMutationError = ErrorType<TodoOpeError>
+
+export const useCreateTodo = <TError = ErrorType<TodoOpeError>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>, TError, { data: TodoInformation }, TContext>, }
+  ): UseMutationResult<
+    Awaited<ReturnType<ReturnType<typeof useCreateTodoHook>>>,
+    TError,
+    { data: TodoInformation },
+    TContext
+  > => {
+
+  const mutationOptions = useCreateTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
+}
+
 /**
  * TODOの一覧を取得する
  */
 export const useGetTodoHook = () => {
-        const getTodo = useCustomInstance<TodoInformation[]>();
+  const getTodo = useCustomInstance<TodoInformation[]>();
 
-        return useCallback((
+  return useCallback((
     params?: GetTodoParams,
- signal?: AbortSignal
-) => {
-        return getTodo(
-          {url: `/todo`, method: 'GET',
+    signal?: AbortSignal
+  ) => {
+    return getTodo(
+      {
+        url: `/todo`, method: 'GET',
         params, signal
-    },
-          );
-        }, [getTodo])
-      }
-    
+      },
+    );
+  }, [getTodo])
+}
+
 
 export const getGetTodoQueryKey = (params?: GetTodoParams,) => {
-    return [`/todo`, ...(params ? [params]: [])] as const;
-    }
+  return [`/todo`, ...(params ? [params] : [])] as const;
+}
 
-    
-export const useGetTodoQueryOptions = <TData = Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError = ErrorType<TodoOpeError>>(params?: GetTodoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData>, }
+
+export const useGetTodoQueryOptions = <TData = Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError = ErrorType<TodoOpeError>>(params?: GetTodoParams, options?: { query?: UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions} = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTodoQueryKey(params);
+  const queryKey = queryOptions?.queryKey ?? getGetTodoQueryKey(params);
 
-  const getTodo =  useGetTodoHook();
+  const getTodo = useGetTodoHook();
 
-    const queryFn: QueryFunction<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>> = ({ signal }) => getTodo(params, signal);
+  const queryFn: QueryFunction<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>> = ({ signal }) => getTodo(params, signal);
 
-      
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData> & { queryKey: QueryKey }
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData> & { queryKey: QueryKey }
 }
 
 export type GetTodoQueryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>>
@@ -136,15 +139,15 @@ export type GetTodoQueryError = ErrorType<TodoOpeError>
 
 
 export function useGetTodo<TData = Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError = ErrorType<TodoOpeError>>(
- params?: GetTodoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData>, }
+  params?: GetTodoParams, options?: { query?: UseQueryOptions<Awaited<ReturnType<ReturnType<typeof useGetTodoHook>>>, TError, TData>, }
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = useGetTodoQueryOptions(params,options)
+  const queryOptions = useGetTodoQueryOptions(params, options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
@@ -157,115 +160,119 @@ export function useGetTodo<TData = Awaited<ReturnType<ReturnType<typeof useGetTo
  * @summary Update a Todo
  */
 export const useUpdateTodoHook = () => {
-        const updateTodo = useCustomInstance<void>();
+  const updateTodo = useCustomInstance<void>();
 
-        return useCallback((
+  return useCallback((
     todoId: number,
     todoInformation: TodoInformation,
- ) => {
-        return updateTodo(
-          {url: `/todo/${todoId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: todoInformation
-    },
-          );
-        }, [updateTodo])
-      }
-    
+  ) => {
+    return updateTodo(
+      {
+        url: `/todo/${todoId}`, method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', },
+        data: todoInformation
+      },
+    );
+  }, [updateTodo])
+}
+
 
 
 export const useUpdateTodoMutationOptions = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError,{todoId: number;data: TodoInformation}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError,{todoId: number;data: TodoInformation}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError, { todoId: number; data: TodoInformation }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError, { todoId: number; data: TodoInformation }, TContext> => {
+  const { mutation: mutationOptions } = options ?? {};
 
-      const updateTodo =  useUpdateTodoHook()
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, {todoId: number;data: TodoInformation}> = (props) => {
-          const {todoId,data} = props ?? {};
-
-          return  updateTodo(todoId,data,)
-        }
-
-        
+  const updateTodo = useUpdateTodoHook()
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, { todoId: number; data: TodoInformation }> = (props) => {
+    const { todoId, data } = props ?? {};
 
-    export type UpdateTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>>
-    export type UpdateTodoMutationBody = TodoInformation
-    export type UpdateTodoMutationError = ErrorType<TodoOpeError>
+    return updateTodo(todoId, data,)
+  }
 
-    /**
- * @summary Update a Todo
- */
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type UpdateTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>>
+export type UpdateTodoMutationBody = TodoInformation
+export type UpdateTodoMutationError = ErrorType<TodoOpeError>
+
+/**
+* @summary Update a Todo
+*/
 export const useUpdateTodo = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError,{todoId: number;data: TodoInformation}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>,
-        TError,
-        {todoId: number;data: TodoInformation},
-        TContext
-      > => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>, TError, { todoId: number; data: TodoInformation }, TContext>, }
+  ): UseMutationResult<
+    Awaited<ReturnType<ReturnType<typeof useUpdateTodoHook>>>,
+    TError,
+    { todoId: number; data: TodoInformation },
+    TContext
+  > => {
 
-      const mutationOptions = useUpdateTodoMutationOptions(options);
+  const mutationOptions = useUpdateTodoMutationOptions(options);
 
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+}
+
 /**
  * TODOを削除する
  */
 export const useDeleteTodoHook = () => {
-        const deleteTodo = useCustomInstance<void>();
+  const deleteTodo = useCustomInstance<void>();
 
-        return useCallback((
+  return useCallback((
     todoId: number,
- ) => {
-        return deleteTodo(
-          {url: `/todo/${todoId}`, method: 'DELETE'
-    },
-          );
-        }, [deleteTodo])
-      }
-    
+  ) => {
+    return deleteTodo(
+      {
+        url: `/todo/${todoId}`, method: 'DELETE'
+      },
+    );
+  }, [deleteTodo])
+}
+
 
 
 export const useDeleteTodoMutationOptions = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError,{todoId: number}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError,{todoId: number}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError, { todoId: number }, TContext>, }
+  ): UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError, { todoId: number }, TContext> => {
+  const { mutation: mutationOptions } = options ?? {};
 
-      const deleteTodo =  useDeleteTodoHook()
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, {todoId: number}> = (props) => {
-          const {todoId} = props ?? {};
-
-          return  deleteTodo(todoId,)
-        }
-
-        
+  const deleteTodo = useDeleteTodoHook()
 
 
-  return  { mutationFn, ...mutationOptions }}
+  const mutationFn: MutationFunction<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, { todoId: number }> = (props) => {
+    const { todoId } = props ?? {};
 
-    export type DeleteTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>>
-    
-    export type DeleteTodoMutationError = ErrorType<TodoOpeError>
+    return deleteTodo(todoId,)
+  }
 
-    export const useDeleteTodo = <TError = ErrorType<TodoOpeError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError,{todoId: number}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>,
-        TError,
-        {todoId: number},
-        TContext
-      > => {
 
-      const mutationOptions = useDeleteTodoMutationOptions(options);
 
-      return useMutation(mutationOptions);
-    }
-    
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteTodoMutationResult = NonNullable<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>>
+
+export type DeleteTodoMutationError = ErrorType<TodoOpeError>
+
+export const useDeleteTodo = <TError = ErrorType<TodoOpeError>,
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>, TError, { todoId: number }, TContext>, }
+  ): UseMutationResult<
+    Awaited<ReturnType<ReturnType<typeof useDeleteTodoHook>>>,
+    TError,
+    { todoId: number },
+    TContext
+  > => {
+
+  const mutationOptions = useDeleteTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
+}
+
