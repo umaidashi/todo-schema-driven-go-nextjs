@@ -24,6 +24,11 @@ dev:
 	cd web && \
 	pnpm run dev
 
+.PHONY: lint
+lint:
+	cd web && \
+	pnpm lint
+
 .PHONY: gen-ogen
 gen-ogen:
 	@docker compose run --rm server \
