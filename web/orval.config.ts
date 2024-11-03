@@ -15,11 +15,10 @@ export default defineConfig({
           path: './src/libs/axios/index.ts',
           name: 'useCustomInstance',
           alias: {
-            '@': path.resolve(__dirname, './src'),
-          },
-        },
-      },
-    },
-  },
+            '@': path.resolve(__dirname, './src')
+          }
+        }
+      }
+    }
+  }
 })
-
