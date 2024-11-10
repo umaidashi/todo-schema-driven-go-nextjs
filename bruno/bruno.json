@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "todo-schema-driven",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
