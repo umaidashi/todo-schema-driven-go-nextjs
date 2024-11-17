@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"server/infra/applogger"
 	"server/pkg/ent"
 	oas "server/pkg/oas"
@@ -31,14 +30,7 @@ func (h *Handler) DeleteTodo(ctx context.Context, params oas.DeleteTodoParams) (
 
 func (h *Handler) GetTodo(ctx context.Context, params oas.GetTodoParams) (oas.GetTodoRes, error) {
 	applogger.Info("GetTodo")
-	user, err := h.db.User.Query().All(ctx)
-	if err != nil {
-		return nil, err
-	}
 
-	fmt.Println("^^^^====================^^^^")
-	fmt.Println(user)
-	fmt.Println("^^^^====================^^^^")
 	todoInfomation := oas.TodoInformation{
 		Title:     "title",
 		Detail:    oas.NewOptString("description"),

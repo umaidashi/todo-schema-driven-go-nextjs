@@ -8,24 +8,71 @@ import (
 )
 
 var (
-	// UsersColumns holds the columns for the "users" table.
-	UsersColumns = []*schema.Column{
+	// LabelsColumns holds the columns for the "labels" table.
+	LabelsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "age", Type: field.TypeInt},
-		{Name: "name", Type: field.TypeString, Default: "unknown"},
-		{Name: "email", Type: field.TypeString, Default: "unknown"},
+		{Name: "title", Type: field.TypeString},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
 	}
-	// UsersTable holds the schema information for the "users" table.
-	UsersTable = &schema.Table{
-		Name:       "users",
-		Columns:    UsersColumns,
-		PrimaryKey: []*schema.Column{UsersColumns[0]},
+	// LabelsTable holds the schema information for the "labels" table.
+	LabelsTable = &schema.Table{
+		Name:       "labels",
+		Columns:    LabelsColumns,
+		PrimaryKey: []*schema.Column{LabelsColumns[0]},
+	}
+	// TodosColumns holds the columns for the "todos" table.
+	TodosColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "title", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString},
+		{Name: "start_at", Type: field.TypeTime},
+		{Name: "end_at", Type: field.TypeTime},
+		{Name: "priority", Type: field.TypeEnum, Enums: []string{"low", "medium", "high"}},
+		{Name: "status", Type: field.TypeString, Default: "pending"},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// TodosTable holds the schema information for the "todos" table.
+	TodosTable = &schema.Table{
+		Name:       "todos",
+		Columns:    TodosColumns,
+		PrimaryKey: []*schema.Column{TodosColumns[0]},
+	}
+	// TodoLabelsColumns holds the columns for the "todo_labels" table.
+	TodoLabelsColumns = []*schema.Column{
+		{Name: "todo_id", Type: field.TypeInt},
+		{Name: "label_id", Type: field.TypeInt},
+	}
+	// TodoLabelsTable holds the schema information for the "todo_labels" table.
+	TodoLabelsTable = &schema.Table{
+		Name:       "todo_labels",
+		Columns:    TodoLabelsColumns,
+		PrimaryKey: []*schema.Column{TodoLabelsColumns[0], TodoLabelsColumns[1]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "todo_labels_todo_id",
+				Columns:    []*schema.Column{TodoLabelsColumns[0]},
+				RefColumns: []*schema.Column{TodosColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+			{
+				Symbol:     "todo_labels_label_id",
+				Columns:    []*schema.Column{TodoLabelsColumns[1]},
+				RefColumns: []*schema.Column{LabelsColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		UsersTable,
+		LabelsTable,
+		TodosTable,
+		TodoLabelsTable,
 	}
 )
 
 func init() {
+	TodoLabelsTable.ForeignKeys[0].RefTable = TodosTable
+	TodoLabelsTable.ForeignKeys[1].RefTable = LabelsTable
 }

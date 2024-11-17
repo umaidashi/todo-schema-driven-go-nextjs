@@ -3,26 +3,42 @@
 package ent
 
 import (
+	"server/pkg/ent/label"
 	"server/pkg/ent/schema"
-	"server/pkg/ent/user"
+	"server/pkg/ent/todo"
+	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	userFields := schema.User{}.Fields()
-	_ = userFields
-	// userDescAge is the schema descriptor for age field.
-	userDescAge := userFields[0].Descriptor()
-	// user.AgeValidator is a validator for the "age" field. It is called by the builders before save.
-	user.AgeValidator = userDescAge.Validators[0].(func(int) error)
-	// userDescName is the schema descriptor for name field.
-	userDescName := userFields[1].Descriptor()
-	// user.DefaultName holds the default value on creation for the name field.
-	user.DefaultName = userDescName.Default.(string)
-	// userDescEmail is the schema descriptor for email field.
-	userDescEmail := userFields[2].Descriptor()
-	// user.DefaultEmail holds the default value on creation for the email field.
-	user.DefaultEmail = userDescEmail.Default.(string)
+	labelFields := schema.Label{}.Fields()
+	_ = labelFields
+	// labelDescCreatedAt is the schema descriptor for created_at field.
+	labelDescCreatedAt := labelFields[1].Descriptor()
+	// label.DefaultCreatedAt holds the default value on creation for the created_at field.
+	label.DefaultCreatedAt = labelDescCreatedAt.Default.(func() time.Time)
+	// labelDescUpdatedAt is the schema descriptor for updated_at field.
+	labelDescUpdatedAt := labelFields[2].Descriptor()
+	// label.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	label.DefaultUpdatedAt = labelDescUpdatedAt.Default.(func() time.Time)
+	// label.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	label.UpdateDefaultUpdatedAt = labelDescUpdatedAt.UpdateDefault.(func() time.Time)
+	todoFields := schema.Todo{}.Fields()
+	_ = todoFields
+	// todoDescStatus is the schema descriptor for status field.
+	todoDescStatus := todoFields[5].Descriptor()
+	// todo.DefaultStatus holds the default value on creation for the status field.
+	todo.DefaultStatus = todoDescStatus.Default.(string)
+	// todoDescCreatedAt is the schema descriptor for created_at field.
+	todoDescCreatedAt := todoFields[6].Descriptor()
+	// todo.DefaultCreatedAt holds the default value on creation for the created_at field.
+	todo.DefaultCreatedAt = todoDescCreatedAt.Default.(func() time.Time)
+	// todoDescUpdatedAt is the schema descriptor for updated_at field.
+	todoDescUpdatedAt := todoFields[7].Descriptor()
+	// todo.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	todo.DefaultUpdatedAt = todoDescUpdatedAt.Default.(func() time.Time)
+	// todo.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	todo.UpdateDefaultUpdatedAt = todoDescUpdatedAt.UpdateDefault.(func() time.Time)
 }
