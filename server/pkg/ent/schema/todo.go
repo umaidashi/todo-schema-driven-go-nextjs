@@ -1,11 +1,12 @@
 package schema
 
 import (
+	"server/domain/model"
 	"time"
 
 	"entgo.io/ent"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
-  "entgo.io/ent/schema/edge"
 )
 
 type Todo struct {
@@ -19,7 +20,7 @@ func (Todo) Fields() []ent.Field {
 		field.Time("start_at"),
 		field.Time("end_at"),
 		field.Enum("priority").Values("low", "medium", "high"),
-		field.String("status").Default("pending"), // TODO: GoType(model.TodoStatus)
+		field.String("status").Default("pending").GoType(model.TodoStatus{}), // TODO: GoType(model.TodoStatus)
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
 	}
