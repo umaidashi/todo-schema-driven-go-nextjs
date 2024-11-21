@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Todo struct {
-	ID          int        `json:"id"`
+	ID          TodoId     `json:"id"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
 	StartAt     time.Time  `json:"startAt"`
@@ -14,4 +14,4 @@ type Todo struct {
 	UpdatedAt   time.Time  `json:"updatedAt"`
 }
 
-
+type TodoId int
