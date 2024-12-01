@@ -40,7 +40,6 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		s.notFound(w, r)
 		return
 	}
-	args := [1]string{}
 
 	// Static code generated router with unwrapped path search.
 	switch {
@@ -58,50 +57,15 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 
 			if len(elem) == 0 {
+				// Leaf node.
 				switch r.Method {
 				case "GET":
-					s.handleGetTodoRequest([0]string{}, elemIsEscaped, w, r)
-				case "POST":
-					s.handleCreateTodoRequest([0]string{}, elemIsEscaped, w, r)
+					s.handleTodoGetRequest([0]string{}, elemIsEscaped, w, r)
 				default:
-					s.notAllowed(w, r, "GET,POST")
+					s.notAllowed(w, r, "GET")
 				}
 
 				return
-			}
-			switch elem[0] {
-			case '/': // Prefix: "/"
-				origElem := elem
-				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
-					elem = elem[l:]
-				} else {
-					break
-				}
-
-				// Param: "todo_id"
-				// Leaf parameter
-				args[0] = elem
-				elem = ""
-
-				if len(elem) == 0 {
-					// Leaf node.
-					switch r.Method {
-					case "DELETE":
-						s.handleDeleteTodoRequest([1]string{
-							args[0],
-						}, elemIsEscaped, w, r)
-					case "PATCH":
-						s.handleUpdateTodoRequest([1]string{
-							args[0],
-						}, elemIsEscaped, w, r)
-					default:
-						s.notAllowed(w, r, "DELETE,PATCH")
-					}
-
-					return
-				}
-
-				elem = origElem
 			}
 
 			elem = origElem
@@ -117,7 +81,7 @@ type Route struct {
 	operationID string
 	pathPattern string
 	count       int
-	args        [1]string
+	args        [0]string
 }
 
 // Name returns ogen operation name.
@@ -194,19 +158,12 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 
 			if len(elem) == 0 {
+				// Leaf node.
 				switch method {
 				case "GET":
-					r.name = "GetTodo"
-					r.summary = ""
-					r.operationID = "get-todo"
-					r.pathPattern = "/todo"
-					r.args = args
-					r.count = 0
-					return r, true
-				case "POST":
-					r.name = "CreateTodo"
-					r.summary = ""
-					r.operationID = "create-todo"
+					r.name = "TodoGet"
+					r.summary = "Search"
+					r.operationID = ""
 					r.pathPattern = "/todo"
 					r.args = args
 					r.count = 0
@@ -214,46 +171,6 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				default:
 					return
 				}
-			}
-			switch elem[0] {
-			case '/': // Prefix: "/"
-				origElem := elem
-				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
-					elem = elem[l:]
-				} else {
-					break
-				}
-
-				// Param: "todo_id"
-				// Leaf parameter
-				args[0] = elem
-				elem = ""
-
-				if len(elem) == 0 {
-					// Leaf node.
-					switch method {
-					case "DELETE":
-						r.name = "DeleteTodo"
-						r.summary = ""
-						r.operationID = "delete-todo"
-						r.pathPattern = "/todo/{todo_id}"
-						r.args = args
-						r.count = 1
-						return r, true
-					case "PATCH":
-						r.name = "UpdateTodo"
-						r.summary = "Update a Todo"
-						r.operationID = "update-todo"
-						r.pathPattern = "/todo/{todo_id}"
-						r.args = args
-						r.count = 1
-						return r, true
-					default:
-						return
-					}
-				}
-
-				elem = origElem
 			}
 
 			elem = origElem

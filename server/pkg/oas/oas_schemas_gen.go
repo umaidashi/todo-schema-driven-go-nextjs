@@ -6,75 +6,91 @@ import (
 	"time"
 )
 
-type CreateTodoBadRequest TodoOpeError
+// Ref: #/components/schemas/ErrorResponse
+type ErrorResponse struct {
+	GlobalErrors []string                       `json:"globalErrors"`
+	FieldErrors  []ErrorResponseFieldErrorsItem `json:"fieldErrors"`
+}
 
-func (*CreateTodoBadRequest) createTodoRes() {}
+// GetGlobalErrors returns the value of GlobalErrors.
+func (s *ErrorResponse) GetGlobalErrors() []string {
+	return s.GlobalErrors
+}
 
-type CreateTodoInternalServerError TodoOpeError
+// GetFieldErrors returns the value of FieldErrors.
+func (s *ErrorResponse) GetFieldErrors() []ErrorResponseFieldErrorsItem {
+	return s.FieldErrors
+}
 
-func (*CreateTodoInternalServerError) createTodoRes() {}
+// SetGlobalErrors sets the value of GlobalErrors.
+func (s *ErrorResponse) SetGlobalErrors(val []string) {
+	s.GlobalErrors = val
+}
 
-type DeleteTodoBadRequest TodoOpeError
+// SetFieldErrors sets the value of FieldErrors.
+func (s *ErrorResponse) SetFieldErrors(val []ErrorResponseFieldErrorsItem) {
+	s.FieldErrors = val
+}
 
-func (*DeleteTodoBadRequest) deleteTodoRes() {}
+func (*ErrorResponse) todoGetRes() {}
 
-type DeleteTodoInternalServerError TodoOpeError
+type ErrorResponseFieldErrorsItem struct {
+	Field    string   `json:"field"`
+	Messages []string `json:"messages"`
+}
 
-func (*DeleteTodoInternalServerError) deleteTodoRes() {}
+// GetField returns the value of Field.
+func (s *ErrorResponseFieldErrorsItem) GetField() string {
+	return s.Field
+}
 
-type DeleteTodoNotFound TodoOpeError
+// GetMessages returns the value of Messages.
+func (s *ErrorResponseFieldErrorsItem) GetMessages() []string {
+	return s.Messages
+}
 
-func (*DeleteTodoNotFound) deleteTodoRes() {}
+// SetField sets the value of Field.
+func (s *ErrorResponseFieldErrorsItem) SetField(val string) {
+	s.Field = val
+}
 
-// DeleteTodoOK is response for DeleteTodo operation.
-type DeleteTodoOK struct{}
+// SetMessages sets the value of Messages.
+func (s *ErrorResponseFieldErrorsItem) SetMessages(val []string) {
+	s.Messages = val
+}
 
-func (*DeleteTodoOK) deleteTodoRes() {}
-
-type GetTodoBadRequest TodoOpeError
-
-func (*GetTodoBadRequest) getTodoRes() {}
-
-type GetTodoInternalServerError TodoOpeError
-
-func (*GetTodoInternalServerError) getTodoRes() {}
-
-type GetTodoOKApplicationJSON []TodoInformation
-
-func (*GetTodoOKApplicationJSON) getTodoRes() {}
-
-// NewOptDate returns new OptDate with value set to v.
-func NewOptDate(v time.Time) OptDate {
-	return OptDate{
+// NewOptDateTime returns new OptDateTime with value set to v.
+func NewOptDateTime(v time.Time) OptDateTime {
+	return OptDateTime{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDate is optional time.Time.
-type OptDate struct {
+// OptDateTime is optional time.Time.
+type OptDateTime struct {
 	Value time.Time
 	Set   bool
 }
 
-// IsSet returns true if OptDate was set.
-func (o OptDate) IsSet() bool { return o.Set }
+// IsSet returns true if OptDateTime was set.
+func (o OptDateTime) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDate) Reset() {
+func (o *OptDateTime) Reset() {
 	var v time.Time
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDate) SetTo(v time.Time) {
+func (o *OptDateTime) SetTo(v time.Time) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDate) Get() (v time.Time, ok bool) {
+func (o OptDateTime) Get() (v time.Time, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -82,320 +98,192 @@ func (o OptDate) Get() (v time.Time, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDate) Or(d time.Time) time.Time {
+func (o OptDateTime) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptFloat64 returns new OptFloat64 with value set to v.
-func NewOptFloat64(v float64) OptFloat64 {
-	return OptFloat64{
-		Value: v,
-		Set:   true,
-	}
+// Ref: #/components/schemas/Priority
+type Priority struct {
+	Name    string `json:"name"`
+	Label   string `json:"label"`
+	Color   string `json:"color"`
+	BgColor string `json:"bgColor"`
 }
 
-// OptFloat64 is optional float64.
-type OptFloat64 struct {
-	Value float64
-	Set   bool
+// GetName returns the value of Name.
+func (s *Priority) GetName() string {
+	return s.Name
 }
 
-// IsSet returns true if OptFloat64 was set.
-func (o OptFloat64) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptFloat64) Reset() {
-	var v float64
-	o.Value = v
-	o.Set = false
+// GetLabel returns the value of Label.
+func (s *Priority) GetLabel() string {
+	return s.Label
 }
 
-// SetTo sets value to v.
-func (o *OptFloat64) SetTo(v float64) {
-	o.Set = true
-	o.Value = v
+// GetColor returns the value of Color.
+func (s *Priority) GetColor() string {
+	return s.Color
 }
 
-// Get returns value and boolean that denotes whether value was set.
-func (o OptFloat64) Get() (v float64, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
+// GetBgColor returns the value of BgColor.
+func (s *Priority) GetBgColor() string {
+	return s.BgColor
 }
 
-// Or returns value if set, or given parameter if does not.
-func (o OptFloat64) Or(d float64) float64 {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
+// SetName sets the value of Name.
+func (s *Priority) SetName(val string) {
+	s.Name = val
 }
 
-// NewOptInt32 returns new OptInt32 with value set to v.
-func NewOptInt32(v int32) OptInt32 {
-	return OptInt32{
-		Value: v,
-		Set:   true,
-	}
+// SetLabel sets the value of Label.
+func (s *Priority) SetLabel(val string) {
+	s.Label = val
 }
 
-// OptInt32 is optional int32.
-type OptInt32 struct {
-	Value int32
-	Set   bool
+// SetColor sets the value of Color.
+func (s *Priority) SetColor(val string) {
+	s.Color = val
 }
 
-// IsSet returns true if OptInt32 was set.
-func (o OptInt32) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptInt32) Reset() {
-	var v int32
-	o.Value = v
-	o.Set = false
+// SetBgColor sets the value of BgColor.
+func (s *Priority) SetBgColor(val string) {
+	s.BgColor = val
 }
 
-// SetTo sets value to v.
-func (o *OptInt32) SetTo(v int32) {
-	o.Set = true
-	o.Value = v
+// Ref: #/components/schemas/TodoBase
+type TodoBase struct {
+	ID          int         `json:"id"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	StartAt     time.Time   `json:"start_at"`
+	EndAt       OptDateTime `json:"end_at"`
+	Priority    Priority    `json:"priority"`
+	Status      TodoStatus  `json:"status"`
 }
 
-// Get returns value and boolean that denotes whether value was set.
-func (o OptInt32) Get() (v int32, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptInt32) Or(d int32) int32 {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptString returns new OptString with value set to v.
-func NewOptString(v string) OptString {
-	return OptString{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptString is optional string.
-type OptString struct {
-	Value string
-	Set   bool
-}
-
-// IsSet returns true if OptString was set.
-func (o OptString) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptString) Reset() {
-	var v string
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptString) SetTo(v string) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptString) Get() (v string, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptString) Or(d string) string {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptTodoInformation returns new OptTodoInformation with value set to v.
-func NewOptTodoInformation(v TodoInformation) OptTodoInformation {
-	return OptTodoInformation{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptTodoInformation is optional TodoInformation.
-type OptTodoInformation struct {
-	Value TodoInformation
-	Set   bool
-}
-
-// IsSet returns true if OptTodoInformation was set.
-func (o OptTodoInformation) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptTodoInformation) Reset() {
-	var v TodoInformation
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptTodoInformation) SetTo(v TodoInformation) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptTodoInformation) Get() (v TodoInformation, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptTodoInformation) Or(d TodoInformation) TodoInformation {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// Ref: #/components/schemas/TodoId
-type TodoId struct {
-	// TODOの登録番号.
-	TodoID OptInt32 `json:"todo_id"`
-}
-
-// GetTodoID returns the value of TodoID.
-func (s *TodoId) GetTodoID() OptInt32 {
-	return s.TodoID
-}
-
-// SetTodoID sets the value of TodoID.
-func (s *TodoId) SetTodoID(val OptInt32) {
-	s.TodoID = val
-}
-
-func (*TodoId) createTodoRes() {}
-
-// Ref: #/components/schemas/TodoInformation
-type TodoInformation struct {
-	// TODOの件名.
-	Title string `json:"title"`
-	// TODOの詳細.
-	Detail OptString `json:"detail"`
-	// TODOの進捗率.
-	Progress int32 `json:"progress"`
-	// 開始予定日.
-	StartDate OptDate `json:"start_date"`
-	// 終了予定日.
-	EndDate OptDate `json:"end_date"`
+// GetID returns the value of ID.
+func (s *TodoBase) GetID() int {
+	return s.ID
 }
 
 // GetTitle returns the value of Title.
-func (s *TodoInformation) GetTitle() string {
+func (s *TodoBase) GetTitle() string {
 	return s.Title
 }
 
-// GetDetail returns the value of Detail.
-func (s *TodoInformation) GetDetail() OptString {
-	return s.Detail
+// GetDescription returns the value of Description.
+func (s *TodoBase) GetDescription() string {
+	return s.Description
 }
 
-// GetProgress returns the value of Progress.
-func (s *TodoInformation) GetProgress() int32 {
-	return s.Progress
+// GetStartAt returns the value of StartAt.
+func (s *TodoBase) GetStartAt() time.Time {
+	return s.StartAt
 }
 
-// GetStartDate returns the value of StartDate.
-func (s *TodoInformation) GetStartDate() OptDate {
-	return s.StartDate
+// GetEndAt returns the value of EndAt.
+func (s *TodoBase) GetEndAt() OptDateTime {
+	return s.EndAt
 }
 
-// GetEndDate returns the value of EndDate.
-func (s *TodoInformation) GetEndDate() OptDate {
-	return s.EndDate
+// GetPriority returns the value of Priority.
+func (s *TodoBase) GetPriority() Priority {
+	return s.Priority
+}
+
+// GetStatus returns the value of Status.
+func (s *TodoBase) GetStatus() TodoStatus {
+	return s.Status
+}
+
+// SetID sets the value of ID.
+func (s *TodoBase) SetID(val int) {
+	s.ID = val
 }
 
 // SetTitle sets the value of Title.
-func (s *TodoInformation) SetTitle(val string) {
+func (s *TodoBase) SetTitle(val string) {
 	s.Title = val
 }
 
-// SetDetail sets the value of Detail.
-func (s *TodoInformation) SetDetail(val OptString) {
-	s.Detail = val
+// SetDescription sets the value of Description.
+func (s *TodoBase) SetDescription(val string) {
+	s.Description = val
 }
 
-// SetProgress sets the value of Progress.
-func (s *TodoInformation) SetProgress(val int32) {
-	s.Progress = val
+// SetStartAt sets the value of StartAt.
+func (s *TodoBase) SetStartAt(val time.Time) {
+	s.StartAt = val
 }
 
-// SetStartDate sets the value of StartDate.
-func (s *TodoInformation) SetStartDate(val OptDate) {
-	s.StartDate = val
+// SetEndAt sets the value of EndAt.
+func (s *TodoBase) SetEndAt(val OptDateTime) {
+	s.EndAt = val
 }
 
-// SetEndDate sets the value of EndDate.
-func (s *TodoInformation) SetEndDate(val OptDate) {
-	s.EndDate = val
+// SetPriority sets the value of Priority.
+func (s *TodoBase) SetPriority(val Priority) {
+	s.Priority = val
 }
 
-// Ref: #/components/schemas/TodoOpeError
-type TodoOpeError struct {
-	// エラーコード.
-	ErrorCode OptFloat64 `json:"error_code"`
-	// エラーメッセージ.
-	ErrorMessage OptString `json:"error_message"`
+// SetStatus sets the value of Status.
+func (s *TodoBase) SetStatus(val TodoStatus) {
+	s.Status = val
 }
 
-// GetErrorCode returns the value of ErrorCode.
-func (s *TodoOpeError) GetErrorCode() OptFloat64 {
-	return s.ErrorCode
+func (*TodoBase) todoGetRes() {}
+
+type TodoGetBadRequest struct{}
+
+func (*TodoGetBadRequest) todoGetRes() {}
+
+// Ref: #/components/schemas/TodoStatus
+type TodoStatus struct {
+	Name    string `json:"name"`
+	Label   string `json:"label"`
+	Color   string `json:"color"`
+	BgColor string `json:"bgColor"`
 }
 
-// GetErrorMessage returns the value of ErrorMessage.
-func (s *TodoOpeError) GetErrorMessage() OptString {
-	return s.ErrorMessage
+// GetName returns the value of Name.
+func (s *TodoStatus) GetName() string {
+	return s.Name
 }
 
-// SetErrorCode sets the value of ErrorCode.
-func (s *TodoOpeError) SetErrorCode(val OptFloat64) {
-	s.ErrorCode = val
+// GetLabel returns the value of Label.
+func (s *TodoStatus) GetLabel() string {
+	return s.Label
 }
 
-// SetErrorMessage sets the value of ErrorMessage.
-func (s *TodoOpeError) SetErrorMessage(val OptString) {
-	s.ErrorMessage = val
+// GetColor returns the value of Color.
+func (s *TodoStatus) GetColor() string {
+	return s.Color
 }
 
-type UpdateTodoBadRequest TodoOpeError
+// GetBgColor returns the value of BgColor.
+func (s *TodoStatus) GetBgColor() string {
+	return s.BgColor
+}
 
-func (*UpdateTodoBadRequest) updateTodoRes() {}
+// SetName sets the value of Name.
+func (s *TodoStatus) SetName(val string) {
+	s.Name = val
+}
 
-type UpdateTodoInternalServerError TodoOpeError
+// SetLabel sets the value of Label.
+func (s *TodoStatus) SetLabel(val string) {
+	s.Label = val
+}
 
-func (*UpdateTodoInternalServerError) updateTodoRes() {}
+// SetColor sets the value of Color.
+func (s *TodoStatus) SetColor(val string) {
+	s.Color = val
+}
 
-// UpdateTodoNoContent is response for UpdateTodo operation.
-type UpdateTodoNoContent struct{}
-
-func (*UpdateTodoNoContent) updateTodoRes() {}
-
-type UpdateTodoNotFound TodoOpeError
-
-func (*UpdateTodoNotFound) updateTodoRes() {}
+// SetBgColor sets the value of BgColor.
+func (s *TodoStatus) SetBgColor(val string) {
+	s.BgColor = val
+}

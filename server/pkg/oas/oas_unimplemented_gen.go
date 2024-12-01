@@ -13,38 +13,11 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
-// CreateTodo implements create-todo operation.
+// TodoGet implements GET /todo operation.
 //
-// TODOを登録する.
-//
-// POST /todo
-func (UnimplementedHandler) CreateTodo(ctx context.Context, req OptTodoInformation) (r CreateTodoRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// DeleteTodo implements delete-todo operation.
-//
-// TODOを削除する.
-//
-// DELETE /todo/{todo_id}
-func (UnimplementedHandler) DeleteTodo(ctx context.Context, params DeleteTodoParams) (r DeleteTodoRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// GetTodo implements get-todo operation.
-//
-// TODOの一覧を取得する.
+// Search.
 //
 // GET /todo
-func (UnimplementedHandler) GetTodo(ctx context.Context, params GetTodoParams) (r GetTodoRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// UpdateTodo implements update-todo operation.
-//
-// TODOを更新する.
-//
-// PATCH /todo/{todo_id}
-func (UnimplementedHandler) UpdateTodo(ctx context.Context, req OptTodoInformation, params UpdateTodoParams) (r UpdateTodoRes, _ error) {
+func (UnimplementedHandler) TodoGet(ctx context.Context) (r TodoGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
