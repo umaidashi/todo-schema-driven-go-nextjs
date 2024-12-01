@@ -2,10 +2,13 @@ package handler
 
 import (
 	"context"
+	"server/domain/model"
 	"server/infra/applogger"
+	"server/infra/dao"
 	"server/pkg/ent"
 	oas "server/pkg/oas"
-	"time"
+
+	"github.com/samber/lo"
 )
 
 func NewHandler(db *ent.Client) oas.Handler {
@@ -31,16 +34,23 @@ func (h *Handler) DeleteTodo(ctx context.Context, params oas.DeleteTodoParams) (
 func (h *Handler) GetTodo(ctx context.Context, params oas.GetTodoParams) (oas.GetTodoRes, error) {
 	applogger.Info("GetTodo")
 
-	todoInfomation := oas.TodoInformation{
-		Title:     "title",
-		Detail:    oas.NewOptString("description"),
-		Progress:  20,
-		StartDate: oas.NewOptDate(time.Now()),
-		EndDate:   oas.NewOptDate(time.Now()),
+	todoDao := dao.NewTodoDao(h.db)
+	todos, err := todoDao.List(ctx)
+	if err != nil {
+		return &oas.GetTodoInternalServerError{
+			ErrorCode:    oas.NewOptFloat64(500),
+			ErrorMessage: oas.NewOptString("Internal Server Error"),
+		}, err
 	}
-	return &oas.GetTodoOKApplicationJSON{
-		todoInfomation,
-	}, nil
+
+	todoInfomations := lo.Map(todos, func(todo model.Todo, _ int) oas.TodoInformation {
+		return oas.TodoInformation{
+			Title:  todo.Title,
+			Detail: oas.NewOptString(todo.Description),
+		}
+	})
+
+	return (*oas.GetTodoOKApplicationJSON)(&todoInfomations), nil
 }
 
 func (h *Handler) UpdateTodo(ctx context.Context, req oas.OptTodoInformation, params oas.UpdateTodoParams) (oas.UpdateTodoRes, error) {
