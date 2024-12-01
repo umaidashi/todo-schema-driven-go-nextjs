@@ -4,6 +4,7 @@ WORKDIR /src/server
 
 RUN go install -v github.com/air-verse/air@latest
 RUN go install -v github.com/ogen-go/ogen/cmd/ogen@latest
+RUN go install -v ariga.io/atlas/cmd/atlas@latest
 
 COPY go.mod go.sum ./
 RUN go mod download

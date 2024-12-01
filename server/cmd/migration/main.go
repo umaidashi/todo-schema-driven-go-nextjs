@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"server/common/config"
-
 	"server/pkg/ent/migrate"
 
 	atlas "ariga.io/atlas/sql/migrate"
