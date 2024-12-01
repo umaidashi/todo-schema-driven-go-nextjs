@@ -45,6 +45,14 @@ func (tc *TodoCreate) SetEndAt(t time.Time) *TodoCreate {
 	return tc
 }
 
+// SetNillableEndAt sets the "end_at" field if the given value is not nil.
+func (tc *TodoCreate) SetNillableEndAt(t *time.Time) *TodoCreate {
+	if t != nil {
+		tc.SetEndAt(*t)
+	}
+	return tc
+}
+
 // SetPriority sets the "priority" field.
 func (tc *TodoCreate) SetPriority(t todo.Priority) *TodoCreate {
 	tc.mutation.SetPriority(t)
@@ -155,9 +163,6 @@ func (tc *TodoCreate) check() error {
 	}
 	if _, ok := tc.mutation.StartAt(); !ok {
 		return &ValidationError{Name: "start_at", err: errors.New(`ent: missing required field "Todo.start_at"`)}
-	}
-	if _, ok := tc.mutation.EndAt(); !ok {
-		return &ValidationError{Name: "end_at", err: errors.New(`ent: missing required field "Todo.end_at"`)}
 	}
 	if _, ok := tc.mutation.Priority(); !ok {
 		return &ValidationError{Name: "priority", err: errors.New(`ent: missing required field "Todo.priority"`)}
