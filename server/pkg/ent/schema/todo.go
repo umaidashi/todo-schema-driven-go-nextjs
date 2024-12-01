@@ -18,7 +18,7 @@ func (Todo) Fields() []ent.Field {
 		field.String("title"),
 		field.String("description"),
 		field.Time("start_at"),
-		field.Time("end_at"),
+		field.Time("end_at").Optional(),
 		field.Enum("priority").Values(model.PRIORITY_NAMES...),
 		field.Enum("status").Values(model.TODO_STATUS_NAMES...),
 		field.Time("created_at").Default(time.Now),

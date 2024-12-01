@@ -27,7 +27,7 @@ var (
 		{Name: "title", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString},
 		{Name: "start_at", Type: field.TypeTime},
-		{Name: "end_at", Type: field.TypeTime},
+		{Name: "end_at", Type: field.TypeTime, Nullable: true},
 		{Name: "priority", Type: field.TypeEnum, Enums: []string{"HIGH", "MIDDLE", "LOW"}},
 		{Name: "status", Type: field.TypeEnum, Enums: []string{"PENDING", "IN_PROGRESS", "DONE"}},
 		{Name: "created_at", Type: field.TypeTime},
