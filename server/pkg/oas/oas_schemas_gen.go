@@ -6,56 +6,56 @@ import (
 	"time"
 )
 
-// Ref: #/components/schemas/ErrorResponse
-type ErrorResponse struct {
-	GlobalErrors []string                       `json:"globalErrors"`
-	FieldErrors  []ErrorResponseFieldErrorsItem `json:"fieldErrors"`
+// Ref: #/components/schemas/BadRequest
+type BadRequest struct {
+	GlobalErrors []string                    `json:"globalErrors"`
+	FieldErrors  []BadRequestFieldErrorsItem `json:"fieldErrors"`
 }
 
 // GetGlobalErrors returns the value of GlobalErrors.
-func (s *ErrorResponse) GetGlobalErrors() []string {
+func (s *BadRequest) GetGlobalErrors() []string {
 	return s.GlobalErrors
 }
 
 // GetFieldErrors returns the value of FieldErrors.
-func (s *ErrorResponse) GetFieldErrors() []ErrorResponseFieldErrorsItem {
+func (s *BadRequest) GetFieldErrors() []BadRequestFieldErrorsItem {
 	return s.FieldErrors
 }
 
 // SetGlobalErrors sets the value of GlobalErrors.
-func (s *ErrorResponse) SetGlobalErrors(val []string) {
+func (s *BadRequest) SetGlobalErrors(val []string) {
 	s.GlobalErrors = val
 }
 
 // SetFieldErrors sets the value of FieldErrors.
-func (s *ErrorResponse) SetFieldErrors(val []ErrorResponseFieldErrorsItem) {
+func (s *BadRequest) SetFieldErrors(val []BadRequestFieldErrorsItem) {
 	s.FieldErrors = val
 }
 
-func (*ErrorResponse) todoGetRes() {}
+func (*BadRequest) todoGetRes() {}
 
-type ErrorResponseFieldErrorsItem struct {
+type BadRequestFieldErrorsItem struct {
 	Field    string   `json:"field"`
 	Messages []string `json:"messages"`
 }
 
 // GetField returns the value of Field.
-func (s *ErrorResponseFieldErrorsItem) GetField() string {
+func (s *BadRequestFieldErrorsItem) GetField() string {
 	return s.Field
 }
 
 // GetMessages returns the value of Messages.
-func (s *ErrorResponseFieldErrorsItem) GetMessages() []string {
+func (s *BadRequestFieldErrorsItem) GetMessages() []string {
 	return s.Messages
 }
 
 // SetField sets the value of Field.
-func (s *ErrorResponseFieldErrorsItem) SetField(val string) {
+func (s *BadRequestFieldErrorsItem) SetField(val string) {
 	s.Field = val
 }
 
 // SetMessages sets the value of Messages.
-func (s *ErrorResponseFieldErrorsItem) SetMessages(val []string) {
+func (s *BadRequestFieldErrorsItem) SetMessages(val []string) {
 	s.Messages = val
 }
 
@@ -153,6 +153,23 @@ func (s *Priority) SetBgColor(val string) {
 	s.BgColor = val
 }
 
+// Ref: #/components/schemas/ServerError
+type ServerError struct {
+	GlobalErrors []string `json:"globalErrors"`
+}
+
+// GetGlobalErrors returns the value of GlobalErrors.
+func (s *ServerError) GetGlobalErrors() []string {
+	return s.GlobalErrors
+}
+
+// SetGlobalErrors sets the value of GlobalErrors.
+func (s *ServerError) SetGlobalErrors(val []string) {
+	s.GlobalErrors = val
+}
+
+func (*ServerError) todoGetRes() {}
+
 // Ref: #/components/schemas/TodoBase
 type TodoBase struct {
 	ID          int         `json:"id"`
@@ -235,10 +252,6 @@ func (s *TodoBase) SetStatus(val TodoStatus) {
 }
 
 func (*TodoBase) todoGetRes() {}
-
-type TodoGetBadRequest struct{}
-
-func (*TodoGetBadRequest) todoGetRes() {}
 
 // Ref: #/components/schemas/TodoStatus
 type TodoStatus struct {

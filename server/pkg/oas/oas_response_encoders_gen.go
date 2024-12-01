@@ -26,7 +26,7 @@ func encodeTodoGetResponse(response TodoGetRes, w http.ResponseWriter, span trac
 
 		return nil
 
-	case *TodoGetBadRequest:
+	case *BadRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
@@ -39,7 +39,7 @@ func encodeTodoGetResponse(response TodoGetRes, w http.ResponseWriter, span trac
 
 		return nil
 
-	case *ErrorResponse:
+	case *ServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))

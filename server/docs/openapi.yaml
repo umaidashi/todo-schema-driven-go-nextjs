@@ -27,15 +27,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties: {}
+                $ref: "#/components/schemas/BadRequest"
           headers: {}
         "500":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ServerError"
           headers: {}
       security: []
 components:
@@ -99,7 +98,7 @@ components:
         - label
         - color
         - bgColor
-    ErrorResponse:
+    BadRequest:
       type: object
       properties:
         globalErrors:
@@ -123,6 +122,15 @@ components:
       required:
         - globalErrors
         - fieldErrors
+    ServerError:
+      type: object
+      properties:
+        globalErrors:
+          type: array
+          items:
+            type: string
+      required:
+        - globalErrors
   securitySchemes: {}
 servers: []
 

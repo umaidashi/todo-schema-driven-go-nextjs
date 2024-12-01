@@ -65,7 +65,7 @@ func decodeTodoGetResponse(resp *http.Response) (res TodoGetRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response TodoGetBadRequest
+			var response BadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -81,6 +81,15 @@ func decodeTodoGetResponse(resp *http.Response) (res TodoGetRes, _ error) {
 					Err:         err,
 				}
 				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:
@@ -100,7 +109,7 @@ func decodeTodoGetResponse(resp *http.Response) (res TodoGetRes, _ error) {
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ErrorResponse
+			var response ServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
