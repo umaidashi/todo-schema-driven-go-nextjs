@@ -11,7 +11,7 @@ var (
 	// LabelsColumns holds the columns for the "labels" table.
 	LabelsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "title", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}
@@ -28,8 +28,8 @@ var (
 		{Name: "description", Type: field.TypeString},
 		{Name: "start_at", Type: field.TypeTime},
 		{Name: "end_at", Type: field.TypeTime},
-		{Name: "priority", Type: field.TypeEnum, Enums: []string{"low", "medium", "high"}},
-		{Name: "status", Type: field.TypeString, Default: "pending"},
+		{Name: "priority", Type: field.TypeEnum, Enums: []string{"HIGH", "MIDDLE", "LOW"}},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"PENDING", "IN_PROGRESS", "DONE"}},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 	}

@@ -17,8 +17,8 @@ type Label struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Title holds the value of the "title" field.
-	Title string `json:"title,omitempty"`
+	// Name holds the value of the "name" field.
+	Name string `json:"name,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
@@ -54,7 +54,7 @@ func (*Label) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case label.FieldID:
 			values[i] = new(sql.NullInt64)
-		case label.FieldTitle:
+		case label.FieldName:
 			values[i] = new(sql.NullString)
 		case label.FieldCreatedAt, label.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -79,11 +79,11 @@ func (l *Label) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			l.ID = int(value.Int64)
-		case label.FieldTitle:
+		case label.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title", values[i])
+				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				l.Title = value.String
+				l.Name = value.String
 			}
 		case label.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -138,8 +138,8 @@ func (l *Label) String() string {
 	var builder strings.Builder
 	builder.WriteString("Label(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", l.ID))
-	builder.WriteString("title=")
-	builder.WriteString(l.Title)
+	builder.WriteString("name=")
+	builder.WriteString(l.Name)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(l.CreatedAt.Format(time.ANSIC))

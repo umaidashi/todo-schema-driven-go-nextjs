@@ -35,7 +35,7 @@ type LabelMutation struct {
 	op            Op
 	typ           string
 	id            *int
-	title         *string
+	name          *string
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -145,40 +145,40 @@ func (m *LabelMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetTitle sets the "title" field.
-func (m *LabelMutation) SetTitle(s string) {
-	m.title = &s
+// SetName sets the "name" field.
+func (m *LabelMutation) SetName(s string) {
+	m.name = &s
 }
 
-// Title returns the value of the "title" field in the mutation.
-func (m *LabelMutation) Title() (r string, exists bool) {
-	v := m.title
+// Name returns the value of the "name" field in the mutation.
+func (m *LabelMutation) Name() (r string, exists bool) {
+	v := m.name
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTitle returns the old "title" field's value of the Label entity.
+// OldName returns the old "name" field's value of the Label entity.
 // If the Label object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LabelMutation) OldTitle(ctx context.Context) (v string, err error) {
+func (m *LabelMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTitle is only allowed on UpdateOne operations")
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTitle requires an ID field in the mutation")
+		return v, errors.New("OldName requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTitle: %w", err)
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
 	}
-	return oldValue.Title, nil
+	return oldValue.Name, nil
 }
 
-// ResetTitle resets all changes to the "title" field.
-func (m *LabelMutation) ResetTitle() {
-	m.title = nil
+// ResetName resets all changes to the "name" field.
+func (m *LabelMutation) ResetName() {
+	m.name = nil
 }
 
 // SetCreatedAt sets the "created_at" field.
@@ -342,8 +342,8 @@ func (m *LabelMutation) Type() string {
 // AddedFields().
 func (m *LabelMutation) Fields() []string {
 	fields := make([]string, 0, 3)
-	if m.title != nil {
-		fields = append(fields, label.FieldTitle)
+	if m.name != nil {
+		fields = append(fields, label.FieldName)
 	}
 	if m.created_at != nil {
 		fields = append(fields, label.FieldCreatedAt)
@@ -359,8 +359,8 @@ func (m *LabelMutation) Fields() []string {
 // schema.
 func (m *LabelMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case label.FieldTitle:
-		return m.Title()
+	case label.FieldName:
+		return m.Name()
 	case label.FieldCreatedAt:
 		return m.CreatedAt()
 	case label.FieldUpdatedAt:
@@ -374,8 +374,8 @@ func (m *LabelMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *LabelMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case label.FieldTitle:
-		return m.OldTitle(ctx)
+	case label.FieldName:
+		return m.OldName(ctx)
 	case label.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case label.FieldUpdatedAt:
@@ -389,12 +389,12 @@ func (m *LabelMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type.
 func (m *LabelMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case label.FieldTitle:
+	case label.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTitle(v)
+		m.SetName(v)
 		return nil
 	case label.FieldCreatedAt:
 		v, ok := value.(time.Time)
@@ -459,8 +459,8 @@ func (m *LabelMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *LabelMutation) ResetField(name string) error {
 	switch name {
-	case label.FieldTitle:
-		m.ResetTitle()
+	case label.FieldName:
+		m.ResetName()
 		return nil
 	case label.FieldCreatedAt:
 		m.ResetCreatedAt()
@@ -567,7 +567,7 @@ type TodoMutation struct {
 	start_at      *time.Time
 	end_at        *time.Time
 	priority      *todo.Priority
-	status        *string
+	status        *todo.Status
 	created_at    *time.Time
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
@@ -858,12 +858,12 @@ func (m *TodoMutation) ResetPriority() {
 }
 
 // SetStatus sets the "status" field.
-func (m *TodoMutation) SetStatus(s string) {
-	m.status = &s
+func (m *TodoMutation) SetStatus(t todo.Status) {
+	m.status = &t
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *TodoMutation) Status() (r string, exists bool) {
+func (m *TodoMutation) Status() (r todo.Status, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -874,7 +874,7 @@ func (m *TodoMutation) Status() (r string, exists bool) {
 // OldStatus returns the old "status" field's value of the Todo entity.
 // If the Todo object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TodoMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *TodoMutation) OldStatus(ctx context.Context) (v todo.Status, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -1172,7 +1172,7 @@ func (m *TodoMutation) SetField(name string, value ent.Value) error {
 		m.SetPriority(v)
 		return nil
 	case todo.FieldStatus:
-		v, ok := value.(string)
+		v, ok := value.(todo.Status)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

@@ -48,7 +48,7 @@ create-ddl:
 migrate-up:
 	atlas migrate apply \
 		--dir "file://server/infra/migrations" \
-		--url "postgres://oidon:oidon@localhost:15432/todo-db?sslmode=disable"
+		--url "postgres://postgres:password@localhost:15432/app_db?sslmode=disable"
 
 .PHONY: logs
 logs:

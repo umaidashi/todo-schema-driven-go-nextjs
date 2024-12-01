@@ -299,12 +299,12 @@ func (lq *LabelQuery) WithTodos(opts ...func(*TodoQuery)) *LabelQuery {
 // Example:
 //
 //	var v []struct {
-//		Title string `json:"title,omitempty"`
+//		Name string `json:"name,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Label.Query().
-//		GroupBy(label.FieldTitle).
+//		GroupBy(label.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (lq *LabelQuery) GroupBy(field string, fields ...string) *LabelGroupBy {
@@ -322,11 +322,11 @@ func (lq *LabelQuery) GroupBy(field string, fields ...string) *LabelGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Title string `json:"title,omitempty"`
+//		Name string `json:"name,omitempty"`
 //	}
 //
 //	client.Label.Query().
-//		Select(label.FieldTitle).
+//		Select(label.FieldName).
 //		Scan(ctx, &v)
 func (lq *LabelQuery) Select(fields ...string) *LabelSelect {
 	lq.ctx.Fields = append(lq.ctx.Fields, fields...)

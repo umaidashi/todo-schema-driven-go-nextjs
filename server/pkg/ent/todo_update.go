@@ -100,15 +100,15 @@ func (tu *TodoUpdate) SetNillablePriority(t *todo.Priority) *TodoUpdate {
 }
 
 // SetStatus sets the "status" field.
-func (tu *TodoUpdate) SetStatus(s string) *TodoUpdate {
-	tu.mutation.SetStatus(s)
+func (tu *TodoUpdate) SetStatus(t todo.Status) *TodoUpdate {
+	tu.mutation.SetStatus(t)
 	return tu
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TodoUpdate) SetNillableStatus(s *string) *TodoUpdate {
-	if s != nil {
-		tu.SetStatus(*s)
+func (tu *TodoUpdate) SetNillableStatus(t *todo.Status) *TodoUpdate {
+	if t != nil {
+		tu.SetStatus(*t)
 	}
 	return tu
 }
@@ -217,6 +217,11 @@ func (tu *TodoUpdate) check() error {
 			return &ValidationError{Name: "priority", err: fmt.Errorf(`ent: validator failed for field "Todo.priority": %w`, err)}
 		}
 	}
+	if v, ok := tu.mutation.Status(); ok {
+		if err := todo.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Todo.status": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -248,7 +253,7 @@ func (tu *TodoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(todo.FieldPriority, field.TypeEnum, value)
 	}
 	if value, ok := tu.mutation.Status(); ok {
-		_spec.SetField(todo.FieldStatus, field.TypeString, value)
+		_spec.SetField(todo.FieldStatus, field.TypeEnum, value)
 	}
 	if value, ok := tu.mutation.CreatedAt(); ok {
 		_spec.SetField(todo.FieldCreatedAt, field.TypeTime, value)
@@ -392,15 +397,15 @@ func (tuo *TodoUpdateOne) SetNillablePriority(t *todo.Priority) *TodoUpdateOne {
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TodoUpdateOne) SetStatus(s string) *TodoUpdateOne {
-	tuo.mutation.SetStatus(s)
+func (tuo *TodoUpdateOne) SetStatus(t todo.Status) *TodoUpdateOne {
+	tuo.mutation.SetStatus(t)
 	return tuo
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TodoUpdateOne) SetNillableStatus(s *string) *TodoUpdateOne {
-	if s != nil {
-		tuo.SetStatus(*s)
+func (tuo *TodoUpdateOne) SetNillableStatus(t *todo.Status) *TodoUpdateOne {
+	if t != nil {
+		tuo.SetStatus(*t)
 	}
 	return tuo
 }
@@ -522,6 +527,11 @@ func (tuo *TodoUpdateOne) check() error {
 			return &ValidationError{Name: "priority", err: fmt.Errorf(`ent: validator failed for field "Todo.priority": %w`, err)}
 		}
 	}
+	if v, ok := tuo.mutation.Status(); ok {
+		if err := todo.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Todo.status": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -570,7 +580,7 @@ func (tuo *TodoUpdateOne) sqlSave(ctx context.Context) (_node *Todo, err error) 
 		_spec.SetField(todo.FieldPriority, field.TypeEnum, value)
 	}
 	if value, ok := tuo.mutation.Status(); ok {
-		_spec.SetField(todo.FieldStatus, field.TypeString, value)
+		_spec.SetField(todo.FieldStatus, field.TypeEnum, value)
 	}
 	if value, ok := tuo.mutation.CreatedAt(); ok {
 		_spec.SetField(todo.FieldCreatedAt, field.TypeTime, value)

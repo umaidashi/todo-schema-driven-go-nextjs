@@ -14,8 +14,8 @@ const (
 	Label = "label"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldTitle holds the string denoting the title field in the database.
-	FieldTitle = "title"
+	// FieldName holds the string denoting the name field in the database.
+	FieldName = "name"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
@@ -34,7 +34,7 @@ const (
 // Columns holds all SQL columns for label fields.
 var Columns = []string{
 	FieldID,
-	FieldTitle,
+	FieldName,
 	FieldCreatedAt,
 	FieldUpdatedAt,
 }
@@ -72,9 +72,9 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByTitle orders the results by the title field.
-func ByTitle(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTitle, opts...).ToFunc()
+// ByName orders the results by the name field.
+func ByName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
 // ByCreatedAt orders the results by the created_at field.

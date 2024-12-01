@@ -14,7 +14,7 @@ type Label struct {
 
 func (Label) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("title"),
+		field.String("name"),
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
 	}
