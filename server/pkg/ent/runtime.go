@@ -27,10 +27,6 @@ func init() {
 	label.UpdateDefaultUpdatedAt = labelDescUpdatedAt.UpdateDefault.(func() time.Time)
 	todoFields := schema.Todo{}.Fields()
 	_ = todoFields
-	// todoDescStatus is the schema descriptor for status field.
-	todoDescStatus := todoFields[5].Descriptor()
-	// todo.DefaultStatus holds the default value on creation for the status field.
-	todo.DefaultStatus = todoDescStatus.Default.(string)
 	// todoDescCreatedAt is the schema descriptor for created_at field.
 	todoDescCreatedAt := todoFields[6].Descriptor()
 	// todo.DefaultCreatedAt holds the default value on creation for the created_at field.

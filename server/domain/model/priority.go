@@ -1,13 +1,7 @@
 package model
 
 import (
-	"database/sql"
-	"database/sql/driver"
-	"fmt"
-
 	"github.com/samber/lo"
-
-	"entgo.io/ent/schema/field"
 )
 
 type Priority struct {
@@ -40,22 +34,13 @@ var PriorityLow = Priority{
 
 var PRIORITIES = []Priority{
 	PriorityHigh,
+	PriorityMiddle,
+	PriorityLow,
 }
 
-func (p Priority) Value(p2 Priority) (driver.Value, error) {
-	return p2.Name, nil
-}
-
-func (Priority) ScanValue() field.ValueScanner {
-	return &sql.NullString{}
-}
-
-func (t Priority) FromValue(v driver.Value) (Priority, error) {
-	if str, ok := v.(string); ok {
-		return PriorityOf(str), nil
-	}
-	return Priority{}, fmt.Errorf("unexpected type %T", v)
-}
+var PRIORITY_NAMES = lo.Map(PRIORITIES, func(p Priority, _ int) string {
+	return p.Name
+})
 
 var priorityMap = lo.KeyBy(PRIORITIES, func(p Priority) string {
 	return p.Name

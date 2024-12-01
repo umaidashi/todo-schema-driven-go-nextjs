@@ -19,8 +19,8 @@ func (Todo) Fields() []ent.Field {
 		field.String("description"),
 		field.Time("start_at"),
 		field.Time("end_at"),
-		field.Enum("priority").Values("low", "medium", "high"),
-		field.String("status").Default("pending").GoType(model.TodoStatus{}), // TODO: GoType(model.TodoStatus)
+		field.Enum("priority").Values(model.PRIORITY_NAMES...),
+		field.Enum("status").Values(model.TODO_STATUS_NAMES...),
 		field.Time("created_at").Default(time.Now),
 		field.Time("updated_at").Default(time.Now).UpdateDefault(time.Now),
 	}
@@ -28,6 +28,6 @@ func (Todo) Fields() []ent.Field {
 
 func (Todo) Edges() []ent.Edge {
 	return []ent.Edge{
-    edge.To("labels", Label.Type),
-  }
+		edge.To("labels", Label.Type),
+	}
 }

@@ -52,16 +52,8 @@ func (tc *TodoCreate) SetPriority(t todo.Priority) *TodoCreate {
 }
 
 // SetStatus sets the "status" field.
-func (tc *TodoCreate) SetStatus(s string) *TodoCreate {
-	tc.mutation.SetStatus(s)
-	return tc
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TodoCreate) SetNillableStatus(s *string) *TodoCreate {
-	if s != nil {
-		tc.SetStatus(*s)
-	}
+func (tc *TodoCreate) SetStatus(t todo.Status) *TodoCreate {
+	tc.mutation.SetStatus(t)
 	return tc
 }
 
@@ -143,10 +135,6 @@ func (tc *TodoCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (tc *TodoCreate) defaults() {
-	if _, ok := tc.mutation.Status(); !ok {
-		v := todo.DefaultStatus
-		tc.mutation.SetStatus(v)
-	}
 	if _, ok := tc.mutation.CreatedAt(); !ok {
 		v := todo.DefaultCreatedAt()
 		tc.mutation.SetCreatedAt(v)
@@ -181,6 +169,11 @@ func (tc *TodoCreate) check() error {
 	}
 	if _, ok := tc.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Todo.status"`)}
+	}
+	if v, ok := tc.mutation.Status(); ok {
+		if err := todo.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Todo.status": %w`, err)}
+		}
 	}
 	if _, ok := tc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Todo.created_at"`)}
@@ -235,7 +228,7 @@ func (tc *TodoCreate) createSpec() (*Todo, *sqlgraph.CreateSpec) {
 		_node.Priority = value
 	}
 	if value, ok := tc.mutation.Status(); ok {
-		_spec.SetField(todo.FieldStatus, field.TypeString, value)
+		_spec.SetField(todo.FieldStatus, field.TypeEnum, value)
 		_node.Status = value
 	}
 	if value, ok := tc.mutation.CreatedAt(); ok {

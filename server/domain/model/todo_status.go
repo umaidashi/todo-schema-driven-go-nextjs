@@ -1,13 +1,7 @@
 package model
 
 import (
-	"database/sql"
-	"database/sql/driver"
-	"fmt"
-
 	"github.com/samber/lo"
-
-	"entgo.io/ent/schema/field"
 )
 
 type TodoStatus struct {
@@ -24,24 +18,29 @@ var TodoStatusPending = TodoStatus{
 	BgColor: "#ffcccc",
 }
 
+var TodoStatusInProgress = TodoStatus{
+	Name:    "IN_PROGRESS",
+	Label:   "進行中",
+	Color:   "#ff0000",
+	BgColor: "#ffcccc",
+}
+
+var TodoStatusDone = TodoStatus{
+	Name:    "DONE",
+	Label:   "完了",
+	Color:   "#ff0000",
+	BgColor: "#ffcccc",
+}
+
 var TODO_STATUSES = []TodoStatus{
 	TodoStatusPending,
+	TodoStatusInProgress,
+	TodoStatusDone,
 }
 
-func (t TodoStatus) Value(s TodoStatus) (driver.Value, error) {
-	return s.Name, nil
-}
-
-func (TodoStatus) ScanValue() field.ValueScanner {
-	return &sql.NullString{}
-}
-
-func (t TodoStatus) FromValue(v driver.Value) (TodoStatus, error) {
-	if str, ok := v.(string); ok {
-		return TodoStatusOf(str), nil
-	}
-	return TodoStatus{}, fmt.Errorf("unexpected type %T", v)
-}
+var TODO_STATUS_NAMES = lo.Map(TODO_STATUSES, func(s TodoStatus, _ int) string {
+	return s.Name
+})
 
 var todoStatusMap = lo.KeyBy(TODO_STATUSES, func(s TodoStatus) string {
 	return s.Name

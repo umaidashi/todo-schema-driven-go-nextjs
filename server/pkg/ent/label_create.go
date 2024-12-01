@@ -21,9 +21,9 @@ type LabelCreate struct {
 	hooks    []Hook
 }
 
-// SetTitle sets the "title" field.
-func (lc *LabelCreate) SetTitle(s string) *LabelCreate {
-	lc.mutation.SetTitle(s)
+// SetName sets the "name" field.
+func (lc *LabelCreate) SetName(s string) *LabelCreate {
+	lc.mutation.SetName(s)
 	return lc
 }
 
@@ -117,8 +117,8 @@ func (lc *LabelCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (lc *LabelCreate) check() error {
-	if _, ok := lc.mutation.Title(); !ok {
-		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "Label.title"`)}
+	if _, ok := lc.mutation.Name(); !ok {
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Label.name"`)}
 	}
 	if _, ok := lc.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Label.created_at"`)}
@@ -152,9 +152,9 @@ func (lc *LabelCreate) createSpec() (*Label, *sqlgraph.CreateSpec) {
 		_node = &Label{config: lc.config}
 		_spec = sqlgraph.NewCreateSpec(label.Table, sqlgraph.NewFieldSpec(label.FieldID, field.TypeInt))
 	)
-	if value, ok := lc.mutation.Title(); ok {
-		_spec.SetField(label.FieldTitle, field.TypeString, value)
-		_node.Title = value
+	if value, ok := lc.mutation.Name(); ok {
+		_spec.SetField(label.FieldName, field.TypeString, value)
+		_node.Name = value
 	}
 	if value, ok := lc.mutation.CreatedAt(); ok {
 		_spec.SetField(label.FieldCreatedAt, field.TypeTime, value)

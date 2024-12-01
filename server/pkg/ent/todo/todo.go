@@ -72,8 +72,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultStatus holds the default value on creation for the "status" field.
-	DefaultStatus string
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
@@ -87,9 +85,9 @@ type Priority string
 
 // Priority values.
 const (
-	PriorityLow    Priority = "low"
-	PriorityMedium Priority = "medium"
-	PriorityHigh   Priority = "high"
+	PriorityHIGH   Priority = "HIGH"
+	PriorityMIDDLE Priority = "MIDDLE"
+	PriorityLOW    Priority = "LOW"
 )
 
 func (pr Priority) String() string {
@@ -99,10 +97,34 @@ func (pr Priority) String() string {
 // PriorityValidator is a validator for the "priority" field enum values. It is called by the builders before save.
 func PriorityValidator(pr Priority) error {
 	switch pr {
-	case PriorityLow, PriorityMedium, PriorityHigh:
+	case PriorityHIGH, PriorityMIDDLE, PriorityLOW:
 		return nil
 	default:
 		return fmt.Errorf("todo: invalid enum value for priority field: %q", pr)
+	}
+}
+
+// Status defines the type for the "status" enum field.
+type Status string
+
+// Status values.
+const (
+	StatusPENDING     Status = "PENDING"
+	StatusIN_PROGRESS Status = "IN_PROGRESS"
+	StatusDONE        Status = "DONE"
+)
+
+func (s Status) String() string {
+	return string(s)
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s Status) error {
+	switch s {
+	case StatusPENDING, StatusIN_PROGRESS, StatusDONE:
+		return nil
+	default:
+		return fmt.Errorf("todo: invalid enum value for status field: %q", s)
 	}
 }
 

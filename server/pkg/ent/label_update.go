@@ -29,16 +29,16 @@ func (lu *LabelUpdate) Where(ps ...predicate.Label) *LabelUpdate {
 	return lu
 }
 
-// SetTitle sets the "title" field.
-func (lu *LabelUpdate) SetTitle(s string) *LabelUpdate {
-	lu.mutation.SetTitle(s)
+// SetName sets the "name" field.
+func (lu *LabelUpdate) SetName(s string) *LabelUpdate {
+	lu.mutation.SetName(s)
 	return lu
 }
 
-// SetNillableTitle sets the "title" field if the given value is not nil.
-func (lu *LabelUpdate) SetNillableTitle(s *string) *LabelUpdate {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (lu *LabelUpdate) SetNillableName(s *string) *LabelUpdate {
 	if s != nil {
-		lu.SetTitle(*s)
+		lu.SetName(*s)
 	}
 	return lu
 }
@@ -149,8 +149,8 @@ func (lu *LabelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := lu.mutation.Title(); ok {
-		_spec.SetField(label.FieldTitle, field.TypeString, value)
+	if value, ok := lu.mutation.Name(); ok {
+		_spec.SetField(label.FieldName, field.TypeString, value)
 	}
 	if value, ok := lu.mutation.CreatedAt(); ok {
 		_spec.SetField(label.FieldCreatedAt, field.TypeTime, value)
@@ -223,16 +223,16 @@ type LabelUpdateOne struct {
 	mutation *LabelMutation
 }
 
-// SetTitle sets the "title" field.
-func (luo *LabelUpdateOne) SetTitle(s string) *LabelUpdateOne {
-	luo.mutation.SetTitle(s)
+// SetName sets the "name" field.
+func (luo *LabelUpdateOne) SetName(s string) *LabelUpdateOne {
+	luo.mutation.SetName(s)
 	return luo
 }
 
-// SetNillableTitle sets the "title" field if the given value is not nil.
-func (luo *LabelUpdateOne) SetNillableTitle(s *string) *LabelUpdateOne {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (luo *LabelUpdateOne) SetNillableName(s *string) *LabelUpdateOne {
 	if s != nil {
-		luo.SetTitle(*s)
+		luo.SetName(*s)
 	}
 	return luo
 }
@@ -373,8 +373,8 @@ func (luo *LabelUpdateOne) sqlSave(ctx context.Context) (_node *Label, err error
 			}
 		}
 	}
-	if value, ok := luo.mutation.Title(); ok {
-		_spec.SetField(label.FieldTitle, field.TypeString, value)
+	if value, ok := luo.mutation.Name(); ok {
+		_spec.SetField(label.FieldName, field.TypeString, value)
 	}
 	if value, ok := luo.mutation.CreatedAt(); ok {
 		_spec.SetField(label.FieldCreatedAt, field.TypeTime, value)
