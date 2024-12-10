@@ -25,10 +25,31 @@ func (h *Handler) TodoGet(ctx context.Context) (oas.TodoGetRes, error) {
 	repository := dao.NewTodoDao(h.db)
 	usecase := usecase.NewTodoUsecase(repository)
 
-	todos, err := usecase.GetTodos(ctx)
+	// TODO: ctx から id を取得する
+	id := 1
+
+	todo, err := usecase.GetTodo(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return nil, nil
+	return &oas.TodoBase{
+		ID:          int(todo.ID),
+		Title:       todo.Title,
+		Description: todo.Description,
+		Status: oas.TodoStatus{
+			Name:    todo.Status.Name,
+			Label:   todo.Status.Label,
+			Color:   todo.Status.Color,
+			BgColor: todo.Status.BgColor,
+		},
+		Priority: oas.Priority{
+			Name:    todo.Priority.Name,
+			Label:   todo.Priority.Label,
+			Color:   todo.Priority.Color,
+			BgColor: todo.Priority.BgColor,
+		},
+		StartAt: todo.StartAt,
+		EndAt:   oas.NewOptDateTime(*todo.EndAt),
+	}, nil
 }

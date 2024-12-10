@@ -16,6 +16,6 @@ func NewTodoUsecase(todoRepo repository.TodoRepository) TodoUsecase {
 	}
 }
 
-func (u TodoUsecase) GetTodos(ctx context.Context) ([]model.Todo, error) {
-	return u.todoRepo.List(ctx)
+func (u TodoUsecase) GetTodo(ctx context.Context, id int) (model.Todo, error) {
+	return u.todoRepo.One(ctx, id)
 }
