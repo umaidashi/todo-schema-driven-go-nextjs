@@ -16,7 +16,7 @@ func NewHandler(db *ent.Client) oas.Handler {
 }
 
 type Handler struct {
-	db *ent.Client
+	db *ent.Client // これがいいかわからない
 }
 
 func (h *Handler) TodoGet(ctx context.Context) (oas.TodoGetRes, error) {
