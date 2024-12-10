@@ -295,6 +295,16 @@ func EndAtLTE(v time.Time) predicate.Todo {
 	return predicate.Todo(sql.FieldLTE(FieldEndAt, v))
 }
 
+// EndAtIsNil applies the IsNil predicate on the "end_at" field.
+func EndAtIsNil() predicate.Todo {
+	return predicate.Todo(sql.FieldIsNull(FieldEndAt))
+}
+
+// EndAtNotNil applies the NotNil predicate on the "end_at" field.
+func EndAtNotNil() predicate.Todo {
+	return predicate.Todo(sql.FieldNotNull(FieldEndAt))
+}
+
 // PriorityEQ applies the EQ predicate on the "priority" field.
 func PriorityEQ(v Priority) predicate.Todo {
 	return predicate.Todo(sql.FieldEQ(FieldPriority, v))

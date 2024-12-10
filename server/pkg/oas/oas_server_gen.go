@@ -8,30 +8,12 @@ import (
 
 // Handler handles operations described by OpenAPI v3 specification.
 type Handler interface {
-	// CreateTodo implements create-todo operation.
+	// TodoGet implements GET /todo operation.
 	//
-	// TODOを登録する.
-	//
-	// POST /todo
-	CreateTodo(ctx context.Context, req OptTodoInformation) (CreateTodoRes, error)
-	// DeleteTodo implements delete-todo operation.
-	//
-	// TODOを削除する.
-	//
-	// DELETE /todo/{todo_id}
-	DeleteTodo(ctx context.Context, params DeleteTodoParams) (DeleteTodoRes, error)
-	// GetTodo implements get-todo operation.
-	//
-	// TODOの一覧を取得する.
+	// Search.
 	//
 	// GET /todo
-	GetTodo(ctx context.Context, params GetTodoParams) (GetTodoRes, error)
-	// UpdateTodo implements update-todo operation.
-	//
-	// TODOを更新する.
-	//
-	// PATCH /todo/{todo_id}
-	UpdateTodo(ctx context.Context, req OptTodoInformation, params UpdateTodoParams) (UpdateTodoRes, error)
+	TodoGet(ctx context.Context) (TodoGetRes, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and

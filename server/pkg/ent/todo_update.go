@@ -85,6 +85,12 @@ func (tu *TodoUpdate) SetNillableEndAt(t *time.Time) *TodoUpdate {
 	return tu
 }
 
+// ClearEndAt clears the value of the "end_at" field.
+func (tu *TodoUpdate) ClearEndAt() *TodoUpdate {
+	tu.mutation.ClearEndAt()
+	return tu
+}
+
 // SetPriority sets the "priority" field.
 func (tu *TodoUpdate) SetPriority(t todo.Priority) *TodoUpdate {
 	tu.mutation.SetPriority(t)
@@ -249,6 +255,9 @@ func (tu *TodoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.EndAt(); ok {
 		_spec.SetField(todo.FieldEndAt, field.TypeTime, value)
 	}
+	if tu.mutation.EndAtCleared() {
+		_spec.ClearField(todo.FieldEndAt, field.TypeTime)
+	}
 	if value, ok := tu.mutation.Priority(); ok {
 		_spec.SetField(todo.FieldPriority, field.TypeEnum, value)
 	}
@@ -379,6 +388,12 @@ func (tuo *TodoUpdateOne) SetNillableEndAt(t *time.Time) *TodoUpdateOne {
 	if t != nil {
 		tuo.SetEndAt(*t)
 	}
+	return tuo
+}
+
+// ClearEndAt clears the value of the "end_at" field.
+func (tuo *TodoUpdateOne) ClearEndAt() *TodoUpdateOne {
+	tuo.mutation.ClearEndAt()
 	return tuo
 }
 
@@ -575,6 +590,9 @@ func (tuo *TodoUpdateOne) sqlSave(ctx context.Context) (_node *Todo, err error) 
 	}
 	if value, ok := tuo.mutation.EndAt(); ok {
 		_spec.SetField(todo.FieldEndAt, field.TypeTime, value)
+	}
+	if tuo.mutation.EndAtCleared() {
+		_spec.ClearField(todo.FieldEndAt, field.TypeTime)
 	}
 	if value, ok := tuo.mutation.Priority(); ok {
 		_spec.SetField(todo.FieldPriority, field.TypeEnum, value)

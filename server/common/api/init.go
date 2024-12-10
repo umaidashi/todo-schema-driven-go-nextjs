@@ -2,10 +2,10 @@ package api
 
 import (
 	"net/http"
+	h "server/infra/http/ogen/handler"
+	middlewares "server/infra/http/ogen/middleware"
 	"server/pkg/ent"
 	oas "server/pkg/oas"
-	h "server/presentation/http/ogen/handler"
-	middlewares "server/presentation/http/ogen/middleware"
 
 	"github.com/rs/cors"
 )

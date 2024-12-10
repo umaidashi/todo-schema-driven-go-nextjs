@@ -10,155 +10,48 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func (s *CreateTodoBadRequest) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *CreateTodoInternalServerError) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *DeleteTodoBadRequest) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *DeleteTodoInternalServerError) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *DeleteTodoNotFound) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *GetTodoBadRequest) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *GetTodoInternalServerError) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s GetTodoOKApplicationJSON) Validate() error {
-	alias := ([]TodoInformation)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *TodoInformation) Validate() error {
+func (s *BadRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := (validate.String{
-			MinLength:    1,
-			MinLengthSet: true,
-			MaxLength:    100,
-			MaxLengthSet: true,
-			Email:        false,
-			Hostname:     false,
-			Regex:        nil,
-		}).Validate(string(s.Title)); err != nil {
-			return errors.Wrap(err, "string")
+		if s.GlobalErrors == nil {
+			return errors.New("nil is invalid value")
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "title",
+			Name:  "globalErrors",
 			Error: err,
 		})
 	}
 	if err := func() error {
-		if value, ok := s.Detail.Get(); ok {
+		if s.FieldErrors == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.FieldErrors {
 			if err := func() error {
-				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    300,
-					MaxLengthSet: true,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
-				}).Validate(string(value)); err != nil {
-					return errors.Wrap(err, "string")
+				if err := elem.Validate(); err != nil {
+					return err
 				}
 				return nil
 			}(); err != nil {
-				return err
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
 			}
 		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "detail",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           0,
-			MaxSet:        true,
-			Max:           100,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-		}).Validate(int64(s.Progress)); err != nil {
-			return errors.Wrap(err, "int")
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "progress",
+			Name:  "fieldErrors",
 			Error: err,
 		})
 	}
@@ -168,27 +61,20 @@ func (s *TodoInformation) Validate() error {
 	return nil
 }
 
-func (s *TodoOpeError) Validate() error {
+func (s *BadRequestFieldErrorsItem) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if value, ok := s.ErrorCode.Get(); ok {
-			if err := func() error {
-				if err := (validate.Float{}).Validate(float64(value)); err != nil {
-					return errors.Wrap(err, "float")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if s.Messages == nil {
+			return errors.New("nil is invalid value")
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "error_code",
+			Name:  "messages",
 			Error: err,
 		})
 	}
@@ -198,26 +84,25 @@ func (s *TodoOpeError) Validate() error {
 	return nil
 }
 
-func (s *UpdateTodoBadRequest) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
+func (s *ServerError) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
 	}
-	return nil
-}
 
-func (s *UpdateTodoInternalServerError) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.GlobalErrors == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "globalErrors",
+			Error: err,
+		})
 	}
-	return nil
-}
-
-func (s *UpdateTodoNotFound) Validate() error {
-	alias := (*TodoOpeError)(s)
-	if err := alias.Validate(); err != nil {
-		return err
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
 	}
 	return nil
 }
